@@ -1,0 +1,24 @@
+<resources>
+    <string name="authors">Authors : </string>
+    <string name="error">Error</string>
+    <string name="fetch_data_failed">Error while fetching book details.</string>
+    <string name="retry">Retry</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="err_bad_request">Bad request. Please try again.</string>
+    <string name="err_request_timeout">Request timed out. Check your connection.</string>
+    <string name="err_unauthorized">You’re not authorized. Please sign in again.</string>
+    <string name="err_forbidden">Access forbidden.</string>
+    <string name="err_not_found">Requested data not found.</string>
+    <string name="err_too_many_requests">Too many requests. Please wait a moment.</string>
+    <string name="err_no_internet">No internet connection.</string>
+    <string name="err_server_error">Server error. Please try later.</string>
+    <string name="err_service_unavailable">Service unavailable. Please try again.</string>
+    <string name="err_serialization">Data parsing error.</string>
+    <string name="err_unknown">Something went wrong.</string>
+    <string name="err_image_loading">Error loading image</string>
+    <string name="published_year">Published Year : </string>
+    <string name="lending_edition">Lending Edition : </string>
+    <string name="logged_date">Logged Date : </string>
+
+</resources>
