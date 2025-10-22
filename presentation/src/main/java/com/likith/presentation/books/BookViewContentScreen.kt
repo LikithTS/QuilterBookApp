@@ -27,17 +27,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.layout.ContentScale
@@ -72,7 +69,7 @@ fun BookRootView(modifier: Modifier) {
 @Composable
 fun BookViewContent(modifier: Modifier, value: BookUiState, retryApiRequest: () -> Unit) {
 
-    var selectedBook by remember { mutableStateOf<BookSummary?>(null) }
+    var selectedBook by rememberSaveable { mutableStateOf<BookSummary?>(null) }
 
     when (value) {
         BookUiState.Ideal -> { // Initial State. So do nothing
@@ -110,107 +107,20 @@ fun BookViewContent(modifier: Modifier, value: BookUiState, retryApiRequest: () 
     }
 
     selectedBook?.let {
-        BottomSheetContent(selectedBook) {
-            selectedBook = null
-        }
-    }
-}
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun BottomSheetContent(summary: BookSummary?, onDismiss : () -> Unit) {
+        val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+        val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
 
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-
-    if(summary != null) {
-        ModalBottomSheet(
-            onDismissRequest = onDismiss,
-            sheetState = sheetState
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-            ) {
-                BookImageContent(summary, 2)
-                Spacer(Modifier.height(8.dp))
-
-                Text(
-                    text = summary.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-
-                Spacer(modifier = Modifier.height(6.dp))
-
-                AuthorContent(summary)
-
-                Spacer(modifier = Modifier.height(6.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(R.string.published_year),
-                        style = MaterialTheme.typography.bodyMedium,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(
-                        text = summary.firstPublishedYear.toString(),
-                        style = MaterialTheme.typography.bodySmall,
-                        maxLines = 3,
-                        overflow = TextOverflow.Ellipsis
-                    )
+        when (deviceConfiguration) {
+            DeviceConfiguration.MOBILE_PORTRAIT, DeviceConfiguration.TABLET_PORTRAIT -> {
+                BottomSheetPortraitContent(selectedBook) {
+                    selectedBook = null
                 }
+            }
 
-                summary.loggedEdition?.let {
-                    Spacer(modifier = Modifier.height(6.dp))
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = stringResource(R.string.lending_edition),
-                            style = MaterialTheme.typography.bodyMedium,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Text(
-                            text = summary.loggedEdition.toString(),
-                            style = MaterialTheme.typography.bodySmall,
-                            maxLines = 3,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-                }
-
-                summary.loggedDate?.let {
-                    Spacer(modifier = Modifier.height(6.dp))
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = stringResource(R.string.logged_date),
-                            style = MaterialTheme.typography.bodyMedium,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Text(
-                            text = summary.loggedDate.toString().split(",").take(1).joinToString(),
-                            style = MaterialTheme.typography.bodySmall,
-                            maxLines = 3,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
+            DeviceConfiguration.MOBILE_LANDSCAPE, DeviceConfiguration.TABLET_LANDSCAPE, DeviceConfiguration.DESKTOP -> {
+                BottomSheetLandScapeContent(selectedBook) {
+                    selectedBook = null
                 }
             }
         }
@@ -336,7 +246,14 @@ fun BookLandScapeCardView(book: BookSummary, onCardClicked: (String) -> Unit) {
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
 
-            BookImageContent(book, 16)
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                BookImageContent(book, 16)
+            }
 
             Column(
                 modifier = Modifier
@@ -361,7 +278,7 @@ fun BookLandScapeCardView(book: BookSummary, onCardClicked: (String) -> Unit) {
 
 @Composable
 fun ErrorBookViewContent(error: DataError, onRetry: () -> Unit) {
-    var showError by remember { mutableStateOf(true) }
+    var showError by rememberSaveable { mutableStateOf(true) }
 
     if (showError) {
         AlertDialog(

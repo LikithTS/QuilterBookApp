@@ -18,6 +18,7 @@ class BookViewModel(
 
     fun getBookData() {
         viewModelScope.launch {
+//            if(_bookUiState.value != BookUiState.Ideal) return@launch
             _bookUiState.update {
                 BookUiState.Loading
             }
