@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.likith.domain.repository.BooksRepository
 import com.likith.domain.util.Result
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -14,12 +16,14 @@ class BookViewModel(
 ) : ViewModel() {
 
     private val _bookUiState = MutableStateFlow<BookUiState>(BookUiState.Ideal)
-    val bookUiState = _bookUiState.asStateFlow()
+    val bookUiState = _bookUiState
+        .onStart {
+            getBookData()
+        }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), BookUiState.Ideal)
 
     fun getBookData() {
         viewModelScope.launch {
-            //Below line will reload of data when configuration changes
-            if(_bookUiState.value != BookUiState.Ideal) return@launch
             _bookUiState.update {
                 BookUiState.Loading
             }
