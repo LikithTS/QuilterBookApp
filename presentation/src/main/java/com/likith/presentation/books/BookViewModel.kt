@@ -18,7 +18,8 @@ class BookViewModel(
 
     fun getBookData() {
         viewModelScope.launch {
-//            if(_bookUiState.value != BookUiState.Ideal) return@launch
+            //Below line will reload of data when configuration changes
+            if(_bookUiState.value != BookUiState.Ideal) return@launch
             _bookUiState.update {
                 BookUiState.Loading
             }
