@@ -22,7 +22,7 @@ kotlinx-coroutines = "1.10.2"
 coilVersion = "3.3.0"
 cardviewVersion = "1.0.0"
 adaptive = "1.1.2"
-previewVersion = "1.9.3"
+turbine-version = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -60,6 +60,8 @@ coil-network-ktor2 = {module = "io.coil-kt.coil3:coil-network-ktor2", version.re
 coil-network-ktor3 = {module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coilVersion"}
 cardview = {module = "androidx.cardview:cardview", version.ref = "cardviewVersion"}
 material3-adaptive = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "adaptive" }
+
+flow-turbine = {group = "app.cash.turbine", name="turbine", version.ref = "turbine-version"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

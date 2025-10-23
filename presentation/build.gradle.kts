@@ -49,6 +49,14 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.androidx.material3)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    //Unit test
+    implementation(libs.koin.test.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
 
     //Compose
     implementation(platform(libs.androidx.compose.bom))
@@ -75,6 +83,9 @@ dependencies {
 
     //Dependency Injection
     implementation(libs.koin.core)
+
+    //turbine
+    testImplementation(libs.flow.turbine)
 
     implementation(project(":domain"))
 }

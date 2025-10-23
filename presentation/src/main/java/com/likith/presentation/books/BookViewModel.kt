@@ -28,7 +28,7 @@ class BookViewModel(
                 BookUiState.Loading
             }
 
-            //User is hardcoded for now
+            //User is hardcoded for now.
             val bookData = booksRepository.getBooksData("mekBot")
             when (bookData) {
                 is Result.Success -> {

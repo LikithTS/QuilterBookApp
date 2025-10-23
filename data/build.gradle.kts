@@ -55,5 +55,10 @@ dependencies {
     //Dependency Injection
     implementation(libs.koin.core)
 
+    //Unit test
+    implementation(libs.koin.test.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
+
     implementation(project(":domain"))
 }
