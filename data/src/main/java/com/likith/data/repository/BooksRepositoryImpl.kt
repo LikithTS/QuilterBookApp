@@ -8,9 +8,10 @@ import com.likith.domain.util.DataError
 import com.likith.domain.util.Result
 import kotlinx.coroutines.ensureActive
 import java.lang.Exception
+import javax.inject.Inject
 import kotlin.coroutines.coroutineContext
 
-class BooksRepositoryImpl(
+class BooksRepositoryImpl @Inject constructor(
     private val booksApi: BooksApi
 ) : BooksRepository {
 

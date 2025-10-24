@@ -40,6 +40,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.window.DialogProperties
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.likith.domain.model.BookSummary
 import com.likith.domain.util.DataError
 import com.likith.domain.util.DeviceConfiguration
@@ -47,12 +48,11 @@ import com.likith.presentation.design_system.CustomImageView
 import com.likith.presentation.R
 import com.likith.presentation.util.BookAppConst
 import com.likith.presentation.util.toMessageRes
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun BookRootView(modifier: Modifier) {
 
-    val bookViewModel: BookViewModel = koinViewModel()
+    val bookViewModel: BookViewModel = hiltViewModel()
 
     val uiState = bookViewModel.bookUiState.collectAsStateWithLifecycle()
 

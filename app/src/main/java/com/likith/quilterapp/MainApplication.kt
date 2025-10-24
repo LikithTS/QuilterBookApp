@@ -1,12 +1,7 @@
 package com.likith.quilterapp
 
 import android.app.Application
-import org.koin.core.context.startKoin
+import dagger.hilt.android.HiltAndroidApp
 
-class MainApplication : Application(){
-
-    override fun onCreate() {
-        super.onCreate()
-        initKoin()
-    }
-}
+@HiltAndroidApp
+class MainApplication : Application()

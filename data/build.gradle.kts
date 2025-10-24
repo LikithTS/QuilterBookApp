@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kapt)
+    alias(libs.plugins.hilt.android)
 }
 
 android {
@@ -53,10 +55,10 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     //Dependency Injection
-    implementation(libs.koin.core)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 
     //Unit test
-    implementation(libs.koin.test.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.coroutines.test)
 
