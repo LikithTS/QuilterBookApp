@@ -33,6 +33,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -57,14 +58,14 @@ fun BookRootView(modifier: Modifier) {
     val uiState = bookViewModel.bookUiState.collectAsStateWithLifecycle()
 
     BookViewContent(modifier, uiState.value) {
-        bookViewModel.getBookData()
+        bookViewModel.loadBooksUsingRx()
     }
 }
 
 @Composable
 fun BookViewContent(modifier: Modifier, value: BookUiState, retryApiRequest: () -> Unit) {
 
-    var selectedBook by rememberSaveable { mutableStateOf<BookSummary?>(null) }
+    var selectedBook by remember { mutableStateOf<BookSummary?>(null) }
 
     when (value) {
         BookUiState.Ideal -> { // Initial State. So do nothing
