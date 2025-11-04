@@ -16,6 +16,7 @@ fun DataError.toMessageRes(): Int = when (this) {
     DataError.Remote.SERVER_ERROR -> R.string.err_server_error
     DataError.Remote.SERVICE_UNAVAILABLE -> R.string.err_service_unavailable
     DataError.Remote.SERIALIZATION -> R.string.err_serialization
+    DataError.Remote.NETWORK -> R.string.err_no_internet
     DataError.Remote.UNKNOWN -> R.string.err_unknown
     DataError.Local.IMAGE_LOAD_FAILED -> R.string.err_image_loading
     DataError.Local.UNKNOWN -> R.string.err_unknown

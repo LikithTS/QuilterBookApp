@@ -2,9 +2,10 @@ package com.likith.data.di
 
 import com.likith.data.remote.BooksApi
 import com.likith.data.repository.BooksRepositoryImpl
+import com.likith.data.util.DefaultErrorMapper
 import com.likith.data.util.NetworkConstant
 import com.likith.domain.repository.BooksRepository
-import dagger.Binds
+import com.likith.domain.util.ErrorMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,8 +34,14 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideBooksRepository(
-        booksApi: BooksApi
+        booksApi: BooksApi,
+        errorMapper: ErrorMapper
     ): BooksRepository = BooksRepositoryImpl(
-        booksApi = booksApi
+        booksApi = booksApi,
+        errorMapper = errorMapper
     )
+
+    @Provides
+    @Singleton
+    fun provideErrorMapper(): ErrorMapper = DefaultErrorMapper()
 }
